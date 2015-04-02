@@ -55,7 +55,7 @@ Show disk space usage in human readable format
 > df -h
 ```
 Show information about a specific directory
-``` sell
+``` shell
 > df -hT /home
 ```
 

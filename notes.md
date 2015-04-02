@@ -48,3 +48,14 @@ Find and remove file(s)
 > find . -type f -name "name.ext" -exec rm -f {} \;
 > find . -type f -name "*.ext" -exec rm -f {} \;
 ```
+
+### df
+Show disk space usage in human readable format
+``` shell
+> df -h
+```
+Show information about a specific directory
+``` sell
+> df -hT /home
+```
+

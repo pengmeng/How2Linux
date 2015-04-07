@@ -59,3 +59,29 @@ Show information about a specific directory
 > df -hT /home
 ```
 
+### netstat
+List all ports (both TCP and UDP)
+``` shell
+> netstat -a | more
+```
+List only TCP or UDP port connections
+``` shell
+> netstat -at
+> netstat -au
+```
+List all active listening ports (TCP or UDP) connections
+``` shell
+> netstat -l
+> netstat -lt
+> netstat -lu
+```
+Show statistics by protocol
+``` shell
+> netstat -s
+> netstat -st
+> netstat -su
+```
+Display kernel IP routing
+``` shell
+> netstat -r
+```

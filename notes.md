@@ -85,3 +85,49 @@ Display kernel IP routing
 ``` shell
 > netstat -r
 ```
+
+### nslookup
+Look for DNS server
+``` shell
+> nslookup google.com
+> nslookup -port 56 google.com
+```
+Look for mail exchanger
+``` shell
+> nslookup -query=mx google.com
+```
+Look for domain server
+``` shell
+> nslookup -query=ns google.com
+```
+Look for DNS record
+``` shell
+> nslookup -type=any google.com
+```
+
+### dig
+Query domain "A" record
+``` shell
+> dig google.com
+> dig google.com +short
+```
+Query specific record for domain
+``` shell
+> dig google.com MX
+> dig google.com SOA
+> dig google.com TTL
+```
+DNS reverse look-up
+``` shell
+> dig -x 72.30.38.140 +short
+```
+
+### uptime
+Show how long the system has been running
+
+### w
+Combination of 'uptime' and 'who'
+
+### rsync
+A cool copy tool  
+Will update later

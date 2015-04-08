@@ -129,5 +129,7 @@ Show how long the system has been running
 Combination of 'uptime' and 'who'
 
 ### rsync
-A cool copy tool  
-Will update later
+A cool copy tool, replace cp in .bashrc
+``` shell
+alias cp='rsync -aP'
+```

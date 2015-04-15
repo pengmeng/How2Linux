@@ -130,6 +130,7 @@ Combination of 'uptime' and 'who'
 
 Awk
 --------------------
+Reference: [Link](http://coolshell.cn/articles/9070.html)
 Use the output of netstat as example
 ``` shell
 > cat netstat.txt
@@ -146,7 +147,6 @@ tcp4      37      0  10.0.0.2.53596         client-12b.v.dro.https CLOSE_WAIT
 tcp4      37      0  dhcp-10-101-54-1.61837 server-54-230-33.https CLOSE_WAIT 
 tcp4      37      0  dhcp-10-101-54-1.61760 client-15b.v.dro.https CLOSE_WAIT
 ```
-awk sentence is in '{sentence}'
 ### Print
 Print selected row in a file
 ``` shell
@@ -187,4 +187,47 @@ Set separator
 > awk -F: '{print $1, $3, $6}' /etc/passwd
 > awk -F '[;:]'
 > awk -F: '{print $1, $3, $6}' OFS="\t" /etc/passwd
+```
+### Match
+Basic example and use like grep
+``` shell
+> awk '$6 ~ /EST/ || NR == 1 {print NR, $4, $5, $6}' OFS="\t" netstat.txt
+> awk '/WAIT/' netstat.txt
+```
+Use pattern to match 'EST' or 'WAIT'
+``` shell
+> awk '$6 ~ /EST|WAIT/ || NR==1 {print NR, $4, $5, $6}' OFS="\t" netstat.txt
+```
+Use opposite of a pattern
+``` shell
+> awk '$6 !~ /EST/ || NR == 1 {print NR, $4, $5, $6}' OFS="\t" netstat.txt
+> awk '!/EST/' netstat.txt
+```
+### Split
+Split the file based on $6 and ignore first line
+``` shell
+> awk 'NR!=1 {print > $6}' netstat.txt
+> ls
+CLOSE_WAIT ESTABLISHED netstat.txt
+```
+Output selected rows to file
+``` shell
+> awk 'NR!=1 {print $4, $5 > $6}' netstat.txt
+```
+Using if-else-if control to split file
+``` shell
+> awk 'NR!=1 {if ($6 ~ /EST/) print > "1.txt";
+else if ($6 ~ /WAIT/) print > "2.txt";
+else print > "3.txt"}' netstat.txt
+> ls ?.txt
+1.txt       2.txt       CLOSE_WAIT  ESTABLISHED netstat.txt
+```
+### Special Usage
+Find columns whose length in greater than 80 in file
+``` shell
+> awk 'length>80' file
+```
+Pring 9x9 table
+``` shell
+> seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")}'
 ```

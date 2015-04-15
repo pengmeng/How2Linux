@@ -167,3 +167,24 @@ Preserve first line with inner variable NR
 > awk '$3==0 && $6=="ESTABLISHED" || NR==1' netstat.txt
 ```
 ### Inner Variable
+|Name     |Description                        |
+|---------|-----------------------------------|
+|$0       |whole record                       |
+|$1~$n    |Nth row                            |
+|FS       |separator default is space or TAB  |
+|NF       |number of rows in the whole record |
+|NR       |column No. start from 1            |
+|FNR      |column No. belongs to each file    |
+|FILENAME |input file name                    |
+
+Example: print column No.
+``` shell
+> awk '$3==0 && $6=="ESTABLISHED" || NR==1 {printf "%02s %s %-22s %-22s %s\n",NR, FNR, $4, $5, $6}' netstat.txt
+```
+Set separator
+``` shell
+> awk 'BEGIN{FS=":"} {print $1,$3,$6}' /etc/passwd
+> awk -F: '{print $1, $3, $6}' /etc/passwd
+> awk -F '[;:]'
+> awk -F: '{print $1, $3, $6}' OFS="\t" /etc/passwd
+```

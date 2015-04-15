@@ -1,4 +1,4 @@
-Notes
+General Command
 --------------------
 
 ### Generate SSH key
@@ -128,8 +128,42 @@ Show how long the system has been running
 ### w
 Combination of 'uptime' and 'who'
 
-### rsync
-A cool copy tool, replace cp in .bashrc
+Awk
+--------------------
+Use the output of netstat as example
 ``` shell
-alias cp='rsync -aP'
+> cat netstat.txt
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)    
+tcp4      37      0  dhcp-10-101-55-2.57321 client-14a.v.dro.https CLOSE_WAIT 
+tcp4       0      0  dhcp-10-101-55-2.57317 ord08s11-in-f2.1.https ESTABLISHED
+tcp4       0      0  dhcp-10-101-55-2.57316 ec2-46-137-116-1.https ESTABLISHED
+tcp4       0      0  dhcp-10-101-55-2.57304 17.110.227.101.5223    ESTABLISHED
+tcp4       0      0  dhcp-10-101-55-2.57302 17.110.224.20.5223     ESTABLISHED
+tcp4       0      0  dhcp-10-101-55-2.57303 snt-re3-9a.sjc.d.https ESTABLISHED
+tcp4      37      0  10.0.0.2.56038         server-54-230-89.https CLOSE_WAIT 
+tcp4      37      0  10.0.0.2.55989         client-15b.v.dro.https CLOSE_WAIT 
+tcp4      37      0  10.0.0.2.53596         client-12b.v.dro.https CLOSE_WAIT 
+tcp4      37      0  dhcp-10-101-54-1.61837 server-54-230-33.https CLOSE_WAIT 
+tcp4      37      0  dhcp-10-101-54-1.61760 client-15b.v.dro.https CLOSE_WAIT
 ```
+awk sentence is in '{sentence}'
+### Print
+Print selected row in a file
+``` shell
+> awk '{print $1, $4}' netstat.txt
+```
+Format print just as C language
+``` shell
+> awk '{printf "%-8s %-8s %-8s %-22s %-22s %-22s\n", $1, $2, $3, $4, $5, $6}' netstat.txt
+```
+### Filter
+Using compare operator same as C language
+``` shell
+> awk '$3==0 && $6=="ESTABLISHED"' netstat.txt
+> awk '$2>0 {print $0}' netstat.txt
+```
+Preserve first line with inner variable NR
+``` shell
+> awk '$3==0 && $6=="ESTABLISHED" || NR==1' netstat.txt
+```
+### Inner Variable

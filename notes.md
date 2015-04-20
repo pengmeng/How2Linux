@@ -1,5 +1,19 @@
 General Command
 --------------------
+### ls
+``` shell
+> ls -F
+> Applications/    Documents/       Library/         Music/
+> ls -r #list reversed
+```
+ls in order of most recently modified
+``` shell
+> ls -ltr
+```
+ls in order of file size (descending)
+``` shell
+> ls -lS
+```
 
 ### Generate SSH key
 ``` shell

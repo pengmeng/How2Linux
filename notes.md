@@ -245,3 +245,162 @@ Pring 9x9 table
 ``` shell
 > seq 9 | sed 'H;g' | awk -v RS='' '{for(i=1;i<=NF;i++)printf("%dx%d=%d%s", i, NR, i*NR, i==NR?"\n":"\t")}'
 ```
+
+grep
+--------------------
+Reference: [Link](http://blog.jobbole.com/75410/)
+### Basic
+Based on grep 2.5.1-FreeBSD
+``` shell
+> grep --version | grep grep
+grep (BSD grep) 2.5.1-FreeBSD
+```
+Using grep
+``` shell
+> cat WSJHandler.log | grep index
+> grep index WSJHandler.log
+```
+Count number of lines that contains a specific keyword
+``` shell
+> grep index WSJHandler.log | wc -l
+  547
+> grep index WSJHandler.log -c
+547
+```
+
+### With Regex Expression
+Create a test file
+``` shell
+> cat test.txt
+one two three
+seven eight one eight three
+thirteen fourteen fifteen
+ sixteen seventeen eighteen seven
+ sixteen seventeen eighteen
+         twenty seven
+         one 504 one
+         one 503 one
+         one     504     one
+         one     504 one
+#comment UP
+         twentyseven
+                 #comment down
+                 twenty1
+                 twenty3
+                 twenty5
+                 twenty7
+```
+Search lines that contains a word
+``` shell
+> grep -w 'seven' test.txt
+seven eight one eight three
+ sixteen seventeen eighteen seven
+         twenty seven
+```
+Search lines that contains a word starting (ending) with a prefix (suffix)
+``` shell
+> grep '\<seven' test.txt
+seven eight one eight three
+ sixteen seventeen eighteen seven
+ sixteen seventeen eighteen
+         twenty seven
+> grep 'seven\>' test.txt
+seven eight one eight three
+ sixteen seventeen eighteen seven
+         twenty seven
+         twentyseven
+```
+Search lines starting (ending) with a prefix (suffix)
+``` shell
+> grep '^seven' test.txt
+seven eight one eight three
+> grep 'seven$' test.txt
+ sixteen seventeen eighteen seven
+         twenty seven
+         twentyseven
+```
+Show context of the result lines
+``` shell
+> grep -C 1 twentyseven test.txt
+#comment UP
+         twentyseven
+                 #comment down
+> grep -A 1 twentyseven test.txt
+         twentyseven
+                 #comment down
+> grep -B 1 twentyseven test.txt
+#comment UP
+         twentyseven
+```
+Also
+``` shell
+> grep 'twenty[1-4]' test.txt
+                 twenty1
+                 twenty3
+> grep 'twenty[^1-4]' test.txt
+         twenty seven
+         twentyseven
+                 twenty5
+                 twenty7
+```
+Use re to match IP address
+``` shell
+> grep -E "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" /etc/resolv.conf
+nameserver 129.105.49.1
+nameserver 165.124.49.21
+> grep -E '\b[0-9]{1,3}(\.[0-9]{1,3}){3}\b' /etc/resolv.conf
+nameserver 129.105.49.1
+nameserver 165.124.49.21
+> grep -oE '\b[0-9]{1,3}(\.[0-9]{1,3}){3}\b' /etc/resolv.conf
+129.105.49.1
+165.124.49.21
+```
+### Reversely Search
+``` shell
+> ps -afx | grep bash
+  501 14561 14560   0  3:43PM ttys000    0:00.07 -bash
+  501 14966 14561   0  4:33PM ttys000    0:00.00 grep bash
+  501   876   875   0 13Apr15 ttys001    0:00.06 -bash
+  501   879   875   0 13Apr15 ttys002    0:00.01 -bash
+  501   887   875   0 13Apr15 ttys003    0:00.07 -bash
+  501  1395   875   0 13Apr15 ttys004    0:00.01 -bash
+  501  1107   875   0 13Apr15 ttys005    0:00.01 -bash
+  501  2039   875   0 13Apr15 ttys006    0:00.01 -bash
+  501  2042   875   0 13Apr15 ttys007    0:00.01 -bash
+  501  3962   875   0 14Apr15 ttys008    0:00.16 -bash
+  501  4035   875   0 14Apr15 ttys009    0:00.12 -bash
+  501  6177   875   0 Tue04PM ttys010    0:00.05 -bash
+> ps -afx | grep bash | grep -v grep
+  501 14561 14560   0  3:43PM ttys000    0:00.08 -bash
+  501   876   875   0 13Apr15 ttys001    0:00.06 -bash
+  501   879   875   0 13Apr15 ttys002    0:00.01 -bash
+  501   887   875   0 13Apr15 ttys003    0:00.07 -bash
+  501  1395   875   0 13Apr15 ttys004    0:00.01 -bash
+  501  1107   875   0 13Apr15 ttys005    0:00.01 -bash
+  501  2039   875   0 13Apr15 ttys006    0:00.01 -bash
+  501  2042   875   0 13Apr15 ttys007    0:00.01 -bash
+  501  3962   875   0 14Apr15 ttys008    0:00.16 -bash
+  501  4035   875   0 14Apr15 ttys009    0:00.12 -bash
+  501  6177   875   0 Tue04PM ttys010    0:00.05 -bash
+```
+
+### POSIX charset
+```
+[:alpha:] Any alphabetical character, regardless of case
+[:digit:] Any numerical character
+[:alnum:] Any alphabetical or numerical character
+[:blank:] Space or tab characters
+[:xdigit:] Hexadecimal characters; any number or A–F or a–f
+[:punct:] Any punctuation symbol
+[:print:] Any printable character (not control characters)
+[:space:] Any whitespace character
+[:graph:] Exclude whitespace characters
+[:upper:] Any uppercase letter
+[:lower:] Any lowercase letter
+[:cntrl:] Control characters
+```
+``` shell
+> grep "[[:upper:]]" test.txt
+#comment UP
+> grep --color "[[:upper:]]" test.txt
+```

@@ -63,6 +63,12 @@ Find and remove file(s)
 > find . -type f -name "*.ext" -exec rm -f {} \;
 ```
 
+### mdfind (MAC OSX)
+Like find but using spotlight therefore much faster than find
+``` shell
+> mdfind -name homebrew
+```
+
 ### df
 Show disk space usage in human readable format
 ``` shell

@@ -410,3 +410,32 @@ nameserver 165.124.49.21
 #comment UP
 > grep --color "[[:upper:]]" test.txt
 ```
+
+xargs
+--------------------
+Print multi-line output as one-line output
+``` shell
+> cat eg.txt
+1 2 3 4 5 6
+7 8 9 10
+11 12 13
+> cat eg.txt | xargs
+1 2 3 4 5 6 7 8 9 10 11 12 13
+```
+one-line to multi-line
+``` shell
+> cat eg.txt | xargs -n 3
+1 2 3
+4 5 6
+7 8 9
+10 11 12
+13
+```
+Work with find (concern with space in file name)
+``` shell
+> find . -type f -name "*.txt" -print0 | xargs -0 rm -f
+```
+Count number of code lines
+``` shell
+> ls -1 *.py | xargs wc -l
+```

@@ -1,10 +1,10 @@
-How2Linux
-====================
-Notes for Linux shell commands
+### How2Linux
+Notes for bash commands & some configuration files
 
-Description
---------------------
- - No Order
- - No Category
- - Just for fun
+#### Content
+ - notes.md: bash commands notes
+ - .tmux.conf: tmux configuration file for Mac OSX
+ - .tmux-theme-gruvbox.conf: auto-generated file by [tmuxline](https://github.com/edkolev/tmuxline.vim)
 
+#### Recent Update
+Vim configuration file was moved to repo [crazy-vim](https://github.com/pengmeng/crazy-vim)

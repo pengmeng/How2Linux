@@ -41,3 +41,7 @@ else
     echo "'$1' is not a valid file"
 fi
 }
+
+function hf() {
+    history | grep $1
+}
